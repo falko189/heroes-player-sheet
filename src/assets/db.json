@@ -34,11 +34,13 @@
                 ],
                 "available_choices": [
                   {
+                    "id": "destrezza_choices_a",
                     "name": "Another stat",
                     "should_affect_stats": true,
                     "value": "+1"
                   },
                   {
+                    "id": "destrezza_choices_b",
                     "name": "Diventi pirla",
                     "should_affect_stats": false,
                     "description": "Da ora in poi sei pirla",

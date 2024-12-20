@@ -24,3 +24,7 @@ export type BasicStat = {
   description?: string,
   value: number
 }
+
+export interface ComputedStats {
+  [statName: string]: number;
+}

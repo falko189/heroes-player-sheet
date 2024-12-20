@@ -26,23 +26,32 @@ export const findCorrectStatLevel = (stat: string, value: number, db: DB ): Stat
 export const handlePassiveStats = (data: SingleStatData[], characterData: PlayerStat) => {
 
   data.forEach((statData: SingleStatData) => {
-      console.log(statData.id);
-      console.log(statData);
-      const stat = characterData.stats.find(s => s.id === statData.id);
-      if (stat) {
-        stat.name = statData.name;
-        stat.description = statData.description;
-      } else {
-        characterData.stats.push({
-          id: statData.id,
-          name: statData.name,
-          description: statData.description,
-          value: 0
-        } as BasicStat);
-      }
+      characterData.stats.push({
+        id: statData.id,
+        name: statData.name,
+        description: statData.description,
+        value: Number(statData.value)
+      } as BasicStat);
+
   });
 }
 
-// export const handleChoices = (stat: string, data: SingleStatData[], characterData: PlayerStat) => {
-    
-// }
+export const handleSelectStats = (
+  title: string,
+  statData: SingleStatData,
+  characterData: PlayerStat
+) => {
+  const selectedStatKey = title.replace(" ", "_") + "availabe_choices_selected"
+  // Remove the old stat by filtering out the item with the given id
+  console.log(selectedStatKey)
+  console.log(statData)
+  characterData.stats = characterData.stats.filter(s => s.id !== selectedStatKey);
+
+  // Add the new stat to the end of the stats array
+  characterData.stats.push({
+    id: selectedStatKey,
+    name: statData.name,
+    description: statData.description,
+    value: Number(statData.value),
+  } as BasicStat);
+};

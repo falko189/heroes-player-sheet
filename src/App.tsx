@@ -1,18 +1,22 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import reactLogo from "./assets/react.svg";
 import db from "./assets/db.json";
 import viteLogo from "/vite.svg";
 import TopLevelStatInput from "./components/TopLevelStatInput";
 import AvailableChoices from "./components/AvailableChoices";
-import {parseJsonKeys, findCorrectStatLevel, handlePassiveStats, }from "./utils/JsonDataProvider";
-
+import StatsDisplay from "./components/StatsDisplay";
+import {
+  parseJsonKeys,
+  findCorrectStatLevel,
+  handlePassiveStats,
+  handleSelectStats,
+} from "./utils/JsonDataProvider";
 import "./App.css";
-import { PlayerStat } from "./types";
+import { PlayerStat, SingleStatData, ComputedStats } from "./types";
 
 function App() {
-  const firstLevelKeys = parseJsonKeys(db); // Use utility to get keys
+  const firstLevelKeys = parseJsonKeys(db);
 
-  // State for input values
   const [formValues, setFormValues] = useState<Record<string, string>>(
     firstLevelKeys.reduce((acc, key) => {
       acc[key] = "";
@@ -20,8 +24,13 @@ function App() {
     }, {})
   );
 
-  const handleSelect = (selectedId: string) => {
-    console.log("Selected ID:", selectedId);
+  const [playerStats, setPlayerStats] = useState<PlayerStat>({ stats: [] });
+  const [computedStats, setComputedStats] = useState<ComputedStats>({}); // State for computed stats
+
+  const handleSelect = (title: string, selectedChoice: SingleStatData) => {
+    const updatedStats = { ...playerStats };
+    handleSelectStats(title, selectedChoice, updatedStats);
+    setPlayerStats(updatedStats);
   };
 
   const handleInputChange = (key: string, value: string) => {
@@ -30,23 +39,44 @@ function App() {
       [key]: value,
     }));
   };
-  let choicesToSelect;
-  const playerStats: PlayerStat={stats:[]};
 
-  Object.entries(formValues).map(([key, value]) => {
+  // Update stats and choices
+  useEffect(() => {
+    const updatedPlayerStats = { ...playerStats };
+    let newChoicesToSelect: JSX.Element | null = null;
 
-      const stats = findCorrectStatLevel(key, Number(value), db)
-      if(stats) {
-       handlePassiveStats(stats.passive_stats, playerStats)
+    Object.entries(formValues).forEach(([key, value]) => {
+      const stats = findCorrectStatLevel(key, Number(value), db);
+      if (stats) {
+        handlePassiveStats(stats.passive_stats, updatedPlayerStats);
+
+        newChoicesToSelect = (
+          <AvailableChoices
+            title={key}
+            items={stats.available_choices}
+            onSelect={handleSelect}
+          />
+        );
       }
-       console.log(stats)
-      
-       
-      if(stats) {
-        // handleChoices(stats.available_choices, playerStats)
-        choicesToSelect = (<AvailableChoices  title={key} items={stats.available_choices} onSelect={handleSelect} />)
-      }
-  })
+    });
+
+    setPlayerStats(updatedPlayerStats);
+  }, [formValues]);
+
+  // Compute stats whenever `playerStats` changes
+  useEffect(() => {
+    const computeStats = (): ComputedStats => {
+      const statsSummary: ComputedStats = {};
+
+      playerStats.stats.forEach((stat) => {
+        statsSummary[stat.name] = (statsSummary[stat.name] || 0) + stat.value;
+      });
+
+      return statsSummary;
+    };
+
+    setComputedStats(computeStats());
+  }, [playerStats]);
 
   return (
     <>
@@ -66,11 +96,8 @@ function App() {
           formValues={formValues}
           handleChange={handleInputChange}
         />
-        {choicesToSelect}
+        <StatsDisplay computedStats={computedStats} />
       </div>
-
-      <h4>Heroes Sheet:</h4>
-      <pre>{JSON.stringify(playerStats, null, 2)}</pre>
     </>
   );
 }

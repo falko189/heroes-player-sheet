@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { BasicStat, SingleStatData } from "../types";
+import {  SingleStatData } from "../types";
 
 
 type SelectComponentProps = {
   title: string,
   items: SingleStatData[];
-  onSelect: (selectedId: string) => void;
+  onSelect: (title:string , selectedChoice: SingleStatData) => void;
 };
 
 
@@ -15,12 +15,15 @@ const AvaialbleChoices: React.FC<SelectComponentProps> = ({ title, items, onSele
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newValue = event.target.value;
     setSelectedId(newValue);
-    onSelect(newValue); // Notify parent about the selection
+    const found = items.find(item => item.id === newValue);
+    if (found) {
+      onSelect(title, found); // Notify parent about the selection
+    }
   };
 
   return (
     <div>
-      <label htmlFor="item-select">Select an Item:</label>
+      <label htmlFor="item-select">Select an Item for {title}:</label>
       <select id="item-select" value={selectedId} onChange={handleChange}>
         <option value="" disabled>
           Choose an item for {title}

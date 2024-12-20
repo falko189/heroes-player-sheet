@@ -25,7 +25,10 @@ function App() {
   );
 
   const [playerStats, setPlayerStats] = useState<PlayerStat>({ stats: [] });
-  const [computedStats, setComputedStats] = useState<ComputedStats>({}); // State for computed stats
+  const [computedStats, setComputedStats] = useState<ComputedStats>({});
+  const [choicesToSelect, setChoicesToSelect] = useState<JSX.Element | null>(
+    null
+  );
 
   const handleSelect = (title: string, selectedChoice: SingleStatData) => {
     const updatedStats = { ...playerStats };
@@ -40,7 +43,7 @@ function App() {
     }));
   };
 
-  // Update stats and choices
+  // Update stats and dynamically generate choices
   useEffect(() => {
     const updatedPlayerStats = { ...playerStats };
     let newChoicesToSelect: JSX.Element | null = null;
@@ -61,6 +64,7 @@ function App() {
     });
 
     setPlayerStats(updatedPlayerStats);
+    setChoicesToSelect(newChoicesToSelect); // Update the dynamic choices
   }, [formValues]);
 
   // Compute stats whenever `playerStats` changes
@@ -96,8 +100,12 @@ function App() {
           formValues={formValues}
           handleChange={handleInputChange}
         />
+        {choicesToSelect}
         <StatsDisplay computedStats={computedStats} />
       </div>
+
+
+      <pre>{JSON.stringify(playerStats, null, 2)}</pre>
     </>
   );
 }

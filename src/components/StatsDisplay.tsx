@@ -8,7 +8,7 @@ type Props = {
 const StatsDisplay: React.FC<Props> = ({ computedStats }) => {
   return (
     <div>
-      <h2>Computed Stats</h2>
+     <h4>Heroes Sheet:</h4>
       <ul>
         {Object.entries(computedStats).map(([statName, value]) => (
           <li key={statName}>

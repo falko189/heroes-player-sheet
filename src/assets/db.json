@@ -34,13 +34,13 @@
                 ],
                 "available_choices": [
                   {
-                    "id": "destrezza_choices_a",
+                    "id": "destrezza_choices_5_a",
                     "name": "Another stat",
                     "should_affect_stats": true,
                     "value": "+1"
                   },
                   {
-                    "id": "destrezza_choices_b",
+                    "id": "destrezza_choices_5_b",
                     "name": "Diventi pirla",
                     "should_affect_stats": false,
                     "description": "Da ora in poi sei pirla",
@@ -83,13 +83,13 @@
                 ],
                 "available_choices": [
                   {
-                    "id": "some_stat",
+                    "id": "destrezza_choices_10_a",
                     "name": "Another stat but 10",
                     "should_affect_stats": true,
                     "value": "+2"
                   },
                   {
-                    "id": "diventi_pirla",
+                    "id": "destrezza_choices_10_b",
                     "name": "Diventi pirla but 10",
                     "should_affect_stats": false,
                     "description": "Da ora in poi sei pirla",
@@ -133,13 +133,13 @@
                 ],
                 "available_choices": [
                   {
-                    "id": "destrezza_again_choices_a",
+                    "id": "destrezza_again_choices_5_a",
                     "name": "Another stat 2",
                     "should_affect_stats": true,
                     "value": "+1"
                   },
                   {
-                    "id": "destrezza_again_choices_b",
+                    "id": "destrezza_again_choices_5_b",
                     "name": "Diventi pirla2 ",
                     "should_affect_stats": false,
                     "description": "Da ora in poi sei pirla",
@@ -182,13 +182,13 @@
                 ],
                 "available_choices": [
                   {
-                    "id": "some_stat",
+                    "id": "destrezza_again_choices_10_a",
                     "name": "Another stat",
                     "should_affect_stats": true,
                     "value": "+2"
                   },
                   {
-                    "id": "diventi_pirla",
+                    "id": "destrezza_again_choices_10_b",
                     "name": "Diventi pirla",
                     "should_affect_stats": false,
                     "description": "Da ora in poi sei pirla",

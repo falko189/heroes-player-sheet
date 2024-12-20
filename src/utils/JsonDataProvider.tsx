@@ -41,18 +41,16 @@ export const handleSelectStats = (
   statData: SingleStatData,
   characterData: PlayerStat
 ) => {
-  const selectedStatKey = title.replace(" ", "_") + "availabe_choices_selected";
-  console.log("characterData 1")
-  console.log(characterData)
+  const selectedStatKey = title.replace(" ", "_") + "_available_choices_selected";
   // Check if the stat already exists in the array
-  const existingStatIndex = characterData.stats.findIndex(
+  const existingStatIndex = characterData.choices.findIndex(
     (s) => s.id === selectedStatKey
   );
 
   // If the stat already exists, update it; otherwise, add it to the array
   if (existingStatIndex !== -1) {
     // Update the existing stat
-    characterData.stats[existingStatIndex] = {
+    characterData.choices[existingStatIndex] = {
       id: selectedStatKey,
       name: statData.name,
       description: statData.description,
@@ -60,7 +58,7 @@ export const handleSelectStats = (
     } as BasicStat;
   } else {
     // If it doesn't exist, add the new stat
-    characterData.stats.push({
+    characterData.choices.push({
       id: selectedStatKey,
       name: statData.name,
       description: statData.description,

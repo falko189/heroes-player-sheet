@@ -24,7 +24,7 @@ function App() {
     }, {})
   );
 
-  const [playerStats, setPlayerStats] = useState<PlayerStat>({ stats: [] });
+  const [playerStats, setPlayerStats] = useState<PlayerStat>({ stats: [] , choices: [] });
   const [computedStats, setComputedStats] = useState<ComputedStats>({});
   const [choicesToSelect, setChoicesToSelect] = useState<JSX.Element[]>(
     []

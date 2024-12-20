@@ -16,6 +16,7 @@ export type SingleStatData = {
 
 export type PlayerStat = {
   stats: BasicStat[]
+  choices: BasicStat[]
 }
 
 export type BasicStat = {

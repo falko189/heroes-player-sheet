@@ -5,7 +5,7 @@ import viteLogo from "/vite.svg";
 import TopLevelStatInput from "./components/TopLevelStatInput";
 import AvailableChoices from "./components/AvailableChoices";
 import StatsDisplay from "./components/StatsDisplay";
-import NonAffectingStatsDisplay from "./components/NonAffectingStatsDisplay";
+
 import {
   parseJsonKeys,
   findCorrectStatLevel,
@@ -150,8 +150,7 @@ function App() {
           handleChange={handleInputChange}
         />
         {choicesToSelect}
-        {/* <StatsDisplay computedStats={computedStats} /> */}
-        <NonAffectingStatsDisplay nonAffectingStats={computedStats.nonAffectingStats} />
+        <StatsDisplay computedStats={computedStats} />
       </div>
 
 

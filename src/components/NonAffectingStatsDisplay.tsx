@@ -2,16 +2,16 @@ import React from 'react';
 import { NonAffectingStat } from '../types';
 
 interface NonAffectingStatsProps {
-  nonAffectingStats: NonAffectingStat[];
+  stats: NonAffectingStat[];
 }
 
-const NonAffectingStatsDisplay: React.FC<NonAffectingStatsProps> = ({ nonAffectingStats }) => {
+const NonAffectingStatsDisplay: React.FC<NonAffectingStatsProps> = ({ stats }) => {
   return (
     <div>
       <h2>Non-Affecting Stats</h2>
-      {(nonAffectingStats && nonAffectingStats.length > 0 )? (
+      {(stats && stats.length > 0 )? (
         <ul>
-          {nonAffectingStats.map((stat) => (
+          {stats.map((stat) => (
             <li key={stat.id}>
               <strong>{stat.name}:</strong>
               <br />

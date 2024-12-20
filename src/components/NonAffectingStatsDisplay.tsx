@@ -8,7 +8,7 @@ interface NonAffectingStatsProps {
 const NonAffectingStatsDisplay: React.FC<NonAffectingStatsProps> = ({ stats }) => {
   return (
     <div>
-      <h2>Non-Affecting Stats</h2>
+      <h3>Non-Affecting Stats</h3>
       {(stats && stats.length > 0 )? (
         <ul>
           {stats.map((stat) => (
@@ -19,7 +19,7 @@ const NonAffectingStatsDisplay: React.FC<NonAffectingStatsProps> = ({ stats }) =
           ))}
         </ul>
       ) : (
-        <p>No stats that do not affect the computation.</p>
+        <p>No affecting stats to display.</p>
       )}
     </div>
   );

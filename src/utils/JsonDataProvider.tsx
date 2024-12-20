@@ -9,7 +9,6 @@ export const findCorrectStatLevel = (stat: string, value: number, db: DB ): Stat
   const result:Object<number, any> = db[stat];
   let foundData:StatData;
   for (const [statValue, statData] of Object.entries(result)) {
-      console.log(statValue);
       if (Number(statValue) > value) {
         break;
       }
@@ -69,6 +68,4 @@ export const handleSelectStats = (
       value: Number(statData.value),
     } as BasicStat);
   }
-  console.log("characterData 2")
-  console.log(characterData)
 };

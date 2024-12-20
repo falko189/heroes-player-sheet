@@ -9,7 +9,6 @@ type Props = {
 
 const StatsDisplay: React.FC<Props> = ({ computedStats }) => {
 
-    console.log(computedStats)
   return (
     <div>
      <h4>Heroes Sheet:</h4>

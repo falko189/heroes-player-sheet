@@ -5,17 +5,23 @@ interface NonAffectingStatsProps {
   stats: NonAffectingStat[];
 }
 
+const getLi = (stat: NonAffectingStat) => {
+  const randomNum = Math.floor(Math.random() * 100000);
+  return(
+    <li key={stat.id + randomNum}>
+      <strong>{stat.name}:</strong>
+      <br />
+    </li>
+  );
+}
 const NonAffectingStatsDisplay: React.FC<NonAffectingStatsProps> = ({ stats }) => {
+  
   return (
     <div>
-      <h3>Non-Affecting Stats</h3>
-      {(stats && stats.length > 0 )? (
+      { stats ? (
         <ul>
           {stats.map((stat) => (
-            <li key={stat.id}>
-              <strong>{stat.name}:</strong>
-              <br />
-            </li>
+            getLi(stat)
           ))}
         </ul>
       ) : (

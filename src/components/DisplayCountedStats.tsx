@@ -7,7 +7,7 @@ interface DisplayCountedStatsProps {
 const DisplayCountedStats: React.FC<DisplayCountedStatsProps> = ({ stats }) => {
     return (
         <div>
-            {(stats && stats.length > 0 )? (
+            { stats ? (
                 <ul>
                     {Object.entries(stats).map(([key, value]) => (
                         <li key={key}>

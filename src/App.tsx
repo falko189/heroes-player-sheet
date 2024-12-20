@@ -115,6 +115,7 @@ function App() {
             // Accumulate the value for each stat by name (if it affects stats)
             statsSummary[stat.name] = (statsSummary[stat.name] || 0) + stat.value;
           } else {
+            //TODO bug maybe 2 passives can be displayed at once
             // Otherwise, add the stat to the nonAffectingStats list
             nonAffectingStats.push(stat);
           }
@@ -154,7 +155,7 @@ function App() {
       </div>
 
 
-      <pre>{JSON.stringify(playerStats, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(playerStats, null, 2)}</pre> */}
     </>
   );
 }

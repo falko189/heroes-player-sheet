@@ -1,0 +1,103 @@
+{
+    "destrezza" : { 
+             "5" : {
+                "passive_stats": [
+                  {
+                    "id": "pv",
+                    "name": "PV",
+                    "should_affect_stats": true,
+                    "type": "passive",
+                    "value": "+1"
+                  },
+                  {
+                    "id": "pv2",
+                    "name": "Vita",
+                    "should_affect_stats": true,
+                    "type": "passive",
+                    "value": "+6"
+                  },
+                  {
+                    "id": "pv3",
+                    "name": "Vita3",
+                    "should_affect_stats": true,
+                    "type": "passive",
+                    "value": "-1",
+                    "description": "More info page 3 "
+                  },
+                  {
+                    "id": "def_not_your_turn",
+                    "name": "Puoi difenderti quand non è il tuo turno",
+                    "should_affect_stats": false,
+                    "type": "card",
+                    "description": "More info page 1356 (esemptio di potere)"
+                  }
+                ],
+                "available_choices": [
+                  {
+                    "name": "Another stat",
+                    "should_affect_stats": true,
+                    "value": "+1"
+                  },
+                  {
+                    "name": "Diventi pirla",
+                    "should_affect_stats": false,
+                    "description": "Da ora in poi sei pirla",
+                    "value": "+1"
+                  }
+                ]
+              },
+              
+              "10" : {
+                "passive_stats": [
+                  {
+                    "id": "pv",
+                    "name": "PV",
+                    "should_affect_stats": true,
+                    "type": "passive",
+                    "value": "+2"
+                  },
+                  {
+                    "id": "pv2",
+                    "name": "Vita",
+                    "should_affect_stats": true,
+                    "type": "passive",
+                    "value": "+9"
+                  },
+                   {
+                    "id": "pv3",
+                    "name": "Vita3",
+                    "should_affect_stats": true,
+                    "type": "passive",
+                    "value": "2",
+                    "description": "More info page 3 "
+                  },
+                  {
+                    "id": "def_not_your_turn",
+                    "name": "Puoi difenderti quand non è il tuo turno",
+                    "should_affect_stats": false,
+                    "type": "card",
+                    "description": "More info page 1356 (esemptio di potere)"
+                  }
+                ],
+                "available_choices": [
+                  {
+                    "id": "some_stat",
+                    "name": "Another stat",
+                    "should_affect_stats": true,
+                    "value": "+2"
+                  },
+                  {
+                    "id": "diventi_pirla",
+                    "name": "Diventi pirla",
+                    "should_affect_stats": false,
+                    "description": "Da ora in poi sei pirla",
+                    "value": "+3"
+                  }
+                ]
+              }
+        }
+}
+
+
+
+  

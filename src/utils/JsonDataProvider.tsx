@@ -23,12 +23,13 @@ export const findCorrectStatLevel = (stat: string, value: number, db: DB ): Stat
   return foundData;
 };
 
-export const handlePassiveStats = (data: SingleStatData[], characterData: PlayerStat) => {
+export const handlePassiveStats = (key:string, data: SingleStatData[], characterData: PlayerStat) => {
 
   data.forEach((statData: SingleStatData) => {
-      characterData.stats.push({
+      characterData.stats[key].push({
         id: statData.id,
         name: statData.name,
+        should_affect_stats: statData.should_affect_stats,
         description: statData.description,
         value: Number(statData.value)
       } as BasicStat);
@@ -43,25 +44,28 @@ export const handleSelectStats = (
 ) => {
   const selectedStatKey = title.replace(" ", "_") + "_available_choices_selected";
   // Check if the stat already exists in the array
-  const existingStatIndex = characterData.choices.findIndex(
+  const statKey = title + "_key";
+  const existingStatIndex = characterData.stats[statKey].findIndex(
     (s) => s.id === selectedStatKey
   );
 
   // If the stat already exists, update it; otherwise, add it to the array
   if (existingStatIndex !== -1) {
     // Update the existing stat
-    characterData.choices[existingStatIndex] = {
+    characterData.stats[statKey][existingStatIndex] = {
       id: selectedStatKey,
       name: statData.name,
       description: statData.description,
+      should_affect_stats: statData.should_affect_stats,
       value: Number(statData.value),
     } as BasicStat;
   } else {
     // If it doesn't exist, add the new stat
-    characterData.choices.push({
+    characterData.stats[statKey].push({
       id: selectedStatKey,
       name: statData.name,
       description: statData.description,
+      should_affect_stats: statData.should_affect_stats,
       value: Number(statData.value),
     } as BasicStat);
   }

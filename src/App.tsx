@@ -5,6 +5,7 @@ import viteLogo from "/vite.svg";
 import TopLevelStatInput from "./components/TopLevelStatInput";
 import AvailableChoices from "./components/AvailableChoices";
 import StatsDisplay from "./components/StatsDisplay";
+import NonAffectingStatsDisplay from "./components/NonAffectingStatsDisplay";
 import {
   parseJsonKeys,
   findCorrectStatLevel,
@@ -12,7 +13,7 @@ import {
   handleSelectStats,
 } from "./utils/JsonDataProvider";
 import "./App.css";
-import { PlayerStat, SingleStatData, ComputedStats } from "./types";
+import { PlayerStat, SingleStatData, ComputedStats, BasicStat, NonAffectingStat } from "./types";
 
 function App() {
   const firstLevelKeys = parseJsonKeys(db);
@@ -24,16 +25,18 @@ function App() {
     }, {})
   );
 
-  const [playerStats, setPlayerStats] = useState<PlayerStat>({ stats: [] , choices: [] });
+  const [playerStats, setPlayerStats] = useState<PlayerStat>({ stats: {}, choices: [] });
   const [computedStats, setComputedStats] = useState<ComputedStats>({});
   const [choicesToSelect, setChoicesToSelect] = useState<JSX.Element[]>(
     []
   );
 
   const handleSelect = (title: string, selectedChoice: SingleStatData) => {
-    const updatedStats = { ...playerStats };
-    handleSelectStats(title, selectedChoice, updatedStats);
-    setPlayerStats(updatedStats);
+    setPlayerStats((prevPlayerStats) => {
+      const updatedStats = { ...prevPlayerStats };
+      handleSelectStats(title, selectedChoice, updatedStats);
+      return updatedStats;
+    });
   };
 
   const handleInputChange = (key: string, value: string) => {
@@ -51,16 +54,14 @@ function App() {
     Object.entries(formValues).forEach(([key, value]) => {
       const newValue = Number(value); // Convert input value to a number
       const stats = findCorrectStatLevel(key, newValue, db);
-  
+      const statKey = key + "_key";
       if (stats) {
         // 1. First, we need to ensure we don't duplicate stats.
         //    We can clear out any stats related to this key.
-        updatedPlayerStats.stats = updatedPlayerStats.stats.filter(
-          (stat) => stat.name !== key
-        );
-  
+        updatedPlayerStats.stats[statKey] = [] as BasicStat[]
+
         // 2. Now we add the new stat based on the updated input value
-        handlePassiveStats(stats.passive_stats, updatedPlayerStats);
+        handlePassiveStats(statKey, stats.passive_stats, updatedPlayerStats);
   
         // Add the new choices for the user to select
         newChoicesToSelect.push(
@@ -81,21 +82,54 @@ function App() {
   
 
 
-  // Compute stats whenever `playerStats` changes
-// Compute stats whenever `playerStats` changes
-useEffect(() => {
-  const computeStats = (): ComputedStats => {
-    const statsSummary: ComputedStats = {}; // Start with a fresh object
-    
-    playerStats.stats.forEach((stat) => {
-      statsSummary[stat.name] = (statsSummary[stat.name] || 0) + stat.value;
-    });
-
-    return statsSummary; // Return the fresh computation
-  };
-
-  setComputedStats(computeStats()); // Reset computed stats with the new summary
-}, [playerStats]);
+  // useEffect(() => {
+  //   const computeStats = (): ComputedStats => {
+  //     const statsSummary: ComputedStats = {}; // Start with a fresh object
+  
+  //     // Iterate through each stat group (e.g., destrezza_key, destrezza_again_key)
+  //     Object.entries(playerStats.stats).forEach(([statKey, statsArray]) => {
+  //       // Now statsArray should be an array of BasicStat objects
+  //       statsArray.forEach((stat: BasicStat) => {
+  //         // Accumulate the value for each stat by name
+  //         statsSummary[stat.name] = (statsSummary[stat.name] || 0) + stat.value;
+  //       });
+  //     });
+  
+  //     return statsSummary; // Return the fresh computation
+  //   };
+  
+  //   // Update the computed stats whenever `playerStats` changes
+  //   setComputedStats(computeStats());
+  // }, [playerStats]); // Re-run when playerStats change
+  
+  useEffect(() => {
+    const computeStats = (): ComputedStats => {
+      const statsSummary: Record<string, number> = {}; // For stats that affect the computation
+      const nonAffectingStats: NonAffectingStat[] = []; // For stats that do not affect the computation
+  
+      // Iterate through each stat group (e.g., destrezza_key, destrezza_again_key)
+      Object.entries(playerStats.stats).forEach(([statKey, statsArray]) => {
+        // Now statsArray should be an array of BasicStat objects
+        statsArray.forEach((stat: BasicStat) => {
+          if (stat.should_affect_stats) {
+            // Accumulate the value for each stat by name (if it affects stats)
+            statsSummary[stat.name] = (statsSummary[stat.name] || 0) + stat.value;
+          } else {
+            // Otherwise, add the stat to the nonAffectingStats list
+            nonAffectingStats.push(stat);
+          }
+        });
+      });
+  
+      // Return both the stats summary and non-affecting stats
+      return { statsSummary, nonAffectingStats };
+    };
+  
+    const { statsSummary, nonAffectingStats } = computeStats();
+    setComputedStats({ statsSummary, nonAffectingStats });
+  }, [playerStats]); // Re-run when playerStats change
+  
+  
 
   return (
     <>
@@ -116,7 +150,8 @@ useEffect(() => {
           handleChange={handleInputChange}
         />
         {choicesToSelect}
-        <StatsDisplay computedStats={computedStats} />
+        {/* <StatsDisplay computedStats={computedStats} /> */}
+        <NonAffectingStatsDisplay nonAffectingStats={computedStats.nonAffectingStats} />
       </div>
 
 

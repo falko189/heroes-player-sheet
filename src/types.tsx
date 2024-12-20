@@ -15,17 +15,26 @@ export type SingleStatData = {
 }
 
 export type PlayerStat = {
-  stats: BasicStat[]
+  stats: { [key: string]: BasicStat[] },
   choices: BasicStat[]
 }
 
 export type BasicStat = {
   id: string,
   name: string,
+  should_affect_stats: boolean,
   description?: string,
   value: number
 }
+export type  NonAffectingStat = {
+  id: string;
+  name: string;
+  value: number;
+  should_affect_stats: boolean;
+}
 
-export interface ComputedStats {
-  [statName: string]: number;
+// Update the ComputedStats type to include both stats that affect computation and those that do not
+export type  ComputedStats = {
+  statsSummary: Record<string, number>;  // For the computed stats that are affected by `should_affect_stats: true`
+  nonAffectingStats: NonAffectingStat[]; // For the stats that are not included in the computation
 }

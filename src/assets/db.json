@@ -155,7 +155,7 @@
                     "name": "PV",
                     "should_affect_stats": true,
                     "type": "passive",
-                    "value": "+2"
+                    "value": "+10"
                   },
                   {
                     "id": "pv2",
